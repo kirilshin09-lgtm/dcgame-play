@@ -116,8 +116,10 @@
         showBanner: unityShowBanner,
       };
 
-      // Phone GPUs choke on retina-sized render targets; desktop is capped at 2x.
-      config.devicePixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+      // Render at native pixels up to 2x: DPR 1 on phones makes the browser
+      // upscale 2-4x and everything turns blurry; full retina (3-4x) is too
+      // heavy for phone GPUs. 2x is sharp on every screen at half the cost.
+      config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
       var script = document.createElement("script");
       script.src = buildUrl + "/WebGL-public.loader.js";
